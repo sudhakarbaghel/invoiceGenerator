@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { Container, Table, Button, Form, Row, Col} from "react-bootstrap";
+import { Container, Table, Button, Form, Row, Col } from "react-bootstrap";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import Invoice from './invoice';
@@ -32,7 +32,7 @@ function App() {
   const [sgstTotal, setSgstTotal] = useState(0);
   const [totalTaxableINR, setTotalTaxableINR] = useState(0);
   const [totalDiscountedPrice, setTotalDiscountedPrice] = useState(0);
-  
+
 
 
   const [invoiceNo, setInvoiceNo] = useState("");
@@ -123,9 +123,9 @@ function App() {
     setNoOfRows(prevRows => prevRows.filter((row, index) => index !== i));
   }
 
- 
 
-  
+
+
   useEffect(() => {
     fetch(productsData)
       .then((res) => res.text())
@@ -177,7 +177,7 @@ function App() {
   return (
     <>
       <div className="App">
-        
+
 
         <h1>Create Tax Invoice</h1>
         <Container>
@@ -254,101 +254,103 @@ function App() {
                 </Form.Group>
               </Col>
             </Row>
-         
-            
+
+
           </Form>
         </Container>
-        
-      <div className="productTableWrap">
-      <Container>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Sr No.</th>
-              <th>Product</th>
-              <th>HSN Code</th>
-              <th>UOM</th>
-              <th>Quantity</th>
-              <th>Rate(INR)</th>
-              <th>Price</th>
-              <th>Discount</th>
-              <th>Taxable value(INR)</th>
-              <th>CGST %</th>
-              <th>SGST %</th>
-              <th>Amount</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {noOfRows.map((row, i) => (
-              <tr key={i}>
-                <td>{i + 1}</td>
-                <td>
-                  <Form.Control
-                    as="select"
-                    value={row.product}
-                    onChange={(e) => handleProductChange(e.target.value, i)}
-                  >
-                    <option value="">Select Product</option>
-                    {products.map((product, j) => (
-                      <option key={j} value={product.product_name}>
-                        {product.product_name}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </td>
-                <td>{row.hsn_code}</td>
-                <td>{row.uom}</td>
-                <td>
-                  <Form.Control
-                    type="number"
-                    value={row.qty}
-                    min={1} onChange={(e) => handleQtyChange(e.target.value, i)} >
-                  </Form.Control>
-                </td>
-                <td>{row.rate}</td>
-                <td>{row.price}</td>
-                <td >
-                  <div style={{ display: "flex", alignItems: 'center' }}>  <Form.Control
-                    type="number"
-                    value={row.discount}
-                    min={0}
 
-                    onChange={(e) => handleDiscChange(e.target.value, i)}
-                  >
-                  </Form.Control>
-                    <span>%</span> </div>
-                  <span>(₹ {row.discountAmt})</span>
-                </td>
-                <td>{row.taxableINR}</td>
-                <td>{row.cgst}%
-                  <div>₹{row.cgstAmount}</div>
-                </td>
-                <td>{row.sgst}%
-                  <div>₹{row.sgstAmount}</div>
-                </td>
-                <td>
-                  ₹{row.amount}
-                </td>
-                <td><Button variant="secondary" onClick={()=>removeRow(i)}>
-                  X</Button></td>
-              </tr>
-            ))}
+        <div className="productTableWrap">
 
-            <tr>
-              <td colSpan={7}></td>
-              <td>{ totalDiscountedPrice}</td>
-              <td>{ totalTaxableINR}</td>
-              <td>{ cgstTotal}</td>
-              <td>{ sgstTotal}</td>
-              <td>₹{total}</td>
-            </tr>
-          </tbody>
-          </Table>
-        
-         
+          <Container>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Sr No.</th>
+                  <th>Product</th>
+                  <th>HSN Code</th>
+                  <th>UOM</th>
+                  <th>Quantity</th>
+                  <th>Rate(INR)</th>
+                  <th>Price</th>
+                  <th>Discount</th>
+                  <th>Taxable value(INR)</th>
+                  <th>CGST %</th>
+                  <th>SGST %</th>
+                  <th>Amount</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {noOfRows.map((row, i) => (
+                  <tr key={i}>
+                    <td>{i + 1}</td>
+                    <td>
+                      <Form.Control
+                        as="select"
+                        value={row.product}
+                        onChange={(e) => handleProductChange(e.target.value, i)}
+                      >
+                        <option value="">Select Product</option>
+                        {products.map((product, j) => (
+                          <option key={j} value={product.product_name}>
+                            {product.product_name}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </td>
+                    <td>{row.hsn_code}</td>
+                    <td>{row.uom}</td>
+                    <td>
+                      <Form.Control
+                        type="number"
+                        value={row.qty}
+                        min={1} onChange={(e) => handleQtyChange(e.target.value, i)} >
+                      </Form.Control>
+                    </td>
+                    <td>{row.rate}</td>
+                    <td>{row.price}</td>
+                    <td >
+                      <div style={{ display: "flex", alignItems: 'center' }}>  <Form.Control
+                        type="number"
+                        value={row.discount}
+                        min={0}
+
+                        onChange={(e) => handleDiscChange(e.target.value, i)}
+                      >
+                      </Form.Control>
+                        <span>%</span> </div>
+                      <span>(₹ {row.discountAmt})</span>
+                    </td>
+                    <td>{row.taxableINR}</td>
+                    <td>{row.cgst}%
+                      <div>₹{row.cgstAmount}</div>
+                    </td>
+                    <td>{row.sgst}%
+                      <div>₹{row.sgstAmount}</div>
+                    </td>
+                    <td>
+                      ₹{row.amount}
+                    </td>
+                    <td><Button variant="secondary" onClick={() => removeRow(i)}>
+                      X</Button></td>
+                  </tr>
+                ))}
+
+                <tr>
+                  <td colSpan={7}></td>
+                  <td>{totalDiscountedPrice}</td>
+                  <td>{totalTaxableINR}</td>
+                  <td>{cgstTotal}</td>
+                  <td>{sgstTotal}</td>
+                  <td>₹{total}</td>
+                </tr>
+              </tbody>
+            </Table>
+
+
 
           </Container>
+
           <div className="buttonWrapper">
             <Button variant="primary" onClick={handleAddRow}>
               Add Row

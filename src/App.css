@@ -34,5 +34,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: scroll;
 }
- 
+ @media only screen and (max-width: 767px) {
+  /* CSS rules here */
+.productTableWrap{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+  width: 100%;
+}
+}
